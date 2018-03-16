@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Criptomonedas</title>
         <link rel="stylesheet" href="css/bootstrap.min.css"></link>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/vue.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,8 +29,9 @@
             </ul>
           </div>
         </nav>
-        <div class="container-fluid">
-                <div class="row">
+        <div class="container-fluid" id="app">
+                <div class="row justify-content-sm-center">
+
                     <?php
                         if(isset($_GET['current']))
                         {
@@ -50,7 +54,6 @@
                 </div>
         </div>
 
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
     </body>
 </html>
