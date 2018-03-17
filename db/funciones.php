@@ -1,6 +1,5 @@
 <?php
-// require "conexion.php";
-//Archivo para consumir la api de todas las criptomonedas y guardar los datos
+//Archivo de funciones que intereactua deirectamente con a base de datos mongo
 /**
  *
  */
@@ -12,6 +11,9 @@ class funciones
         # code...
     }
 
+    /*
+        Metodo para obtener los datos de la API de coinmarketcap
+    */
     public function getData()
     {
         $url = "https://api.coinmarketcap.com/v1/ticker/";
@@ -19,6 +21,9 @@ class funciones
         return json_decode($data, true);
     }
 
+    /*
+        Metodo para obtener los datos de las criptomonedas almacenadas en mongo
+    */
     public function show($limit = 0)
     {
         require "conexion.php";
@@ -26,24 +31,24 @@ class funciones
         if ($limit == 0) {
             $cursor = $collection->find([], ['sort' => ['market_cap_usd' => -1]]);
         }else {
-            // $cursor = $collection->find([], ['skip' => 0, 'limit' => 10, 'sort' => ['market_cap_usd' => -1]]);
             $cursor = $collection->aggregate([
-                // ['$group' => ['_id' => '$state', 'count' => ['$sum' => 1]]],
-                ['$sort' => ['market_cap_usd' => 1]],
+                ['$sort' => ['market_cap_usd' => -1]],
                 ['$limit' => 10],
             ]);
         }
         return $cursor;
     }
 
+    /*
+        Metodo para almacenar los datos de una criptomoneda que bienen de la API
+    */
     public function store()
     {
         require "conexion.php";
         $data = $this->getData();
         $collection = $db->criptomonedas;
         foreach ($data as $key => $document) {
-            // $document['market_cap_usd'] = number_format($document['market_cap_usd'], 1, '.', ',');
-
+            $document['market_cap_usd'] = doubleval($document['market_cap_usd']);
             $existe = $collection->count($document);
             if($existe == 0)
             {
@@ -54,30 +59,24 @@ class funciones
        return "Document inserted successfully";
     }
 
-    public function update($value='')
-    {
-        # code...
-    }
-
-    public function search($value='')
-    {
-        # code...
-    }
-
+    /*
+        Metodo para obtener los nombres de una criptomoneda y poder eliminarlo
+    */
     public function criptomonedas($value='')
     {
         require "conexion.php";
         $collection = $db->criptomonedas;
         $cursor = $collection->aggregate([
-        // ['$group' => ['_id' => 'identi', ]],
         ['$group' => ['_id' => '$id', 'name' => ['$first' => '$name'], 'market_cap_usd' => ['$first' => '$market_cap_usd']]],
         ['$sort' => ['name' => 1]],
-        // ['$limit' => 5],
         ]);
 
         return $cursor;
     }
 
+    /*
+    Metodo para eliminar los registros de una criptomoneda dada
+    */
     public function destroy($key)
     {
         require "conexion.php";
