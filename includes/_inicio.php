@@ -14,7 +14,7 @@
             <tr v-for="(item, index) in monedas">
                 <td>{{ index+1 }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.market_cap_usd }}</td>
+                <td>{{ item.market_cap_usd }} / <span class="fa fa-money-bill-alt fa-lg"></span> USD</td>
             </tr>
 
         </tbody>

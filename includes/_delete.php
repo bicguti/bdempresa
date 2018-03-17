@@ -12,13 +12,20 @@
             </tr>
         </thead>
         <tbody>
+            <tr v-if="monedas.length === 0">
+                <td colspan="4">
+                    <span class="fas fa-spinner fa-pulse fa-2x"></span>
+                </td>
+            </tr>
             <tr v-for="(item, index) in monedas">
                 <td>{{ index+1 }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.market_cap_usd }}</td>
-                <th>
-                    <a href="#" v-on:click="deleteCoin(item._id, index, $event)">Eliminar</a>
-                </th>
+                <td>{{ item.market_cap_usd }} / <span class="fa fa-money-bill-alt fa-lg"></span> USD</td>
+                <td class="text-center">
+                    <a href="#" v-on:click="deleteCoin(item._id, index, $event)" class="text-danger">
+                        <span class="fa fa-trash-alt fa-lg"></span>
+                    </a>
+                </td>
             </tr>
 
         </tbody>
