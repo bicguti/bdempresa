@@ -33,11 +33,6 @@ class funciones
                 ['$limit' => 10],
             ]);
         }
-
-        // iterate cursor to display title of documents
-        // foreach ($cursor as $document) {
-        //    echo $document["name"] . "\n";
-        // }
         return $cursor;
     }
 
