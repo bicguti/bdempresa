@@ -85,6 +85,20 @@ class funciones
         return 'Los valores de la moneda '.$key.' fueron eliminados!!! '.$deleteResult->getDeletedCount();
     }
 
+    /*
+        Metodo para listar la evolucion de los precios de las criptomonedas
+    */
+    public function priceEvolution()
+    {
+        require "conexion.php";
+        $collection = $db->criptomonedas;
+        $cursor = $collection->aggregate([
+        ['$sort' => ['name' => 1, 'market_cap_usd' => -1]],
+        ]);
+
+        return $cursor;
+    }
+
 }
 
 
